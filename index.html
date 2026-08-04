@@ -1615,18 +1615,26 @@ document.getElementById("loginSubmit").addEventListener("click",function(){
     aLI=true;
     document.getElementById("loginModal").classList.remove("open");
     go("admin");toast("Bienvenido, administrador");
-  } else {
-    // Try login by email or username
-    var found=users[u]||Object.values(users).find(function(x){return x.username===u;});
-    if(found&&found.pass===p){
+    return;
+  }
+  toast("Verificando cuenta...");
+  checkUserRemote(u,p).then(function(res){
+    var found=res&&res.found?res.user:null;
+    if(!found){
+      // Fallback a memoria local (sesión actual) y a búsqueda por username
+      found=users[u]||Object.values(users).find(function(x){return x.username===u;});
+      if(found&&found.pass!==p)found=null;
+    }
+    if(found){
       currentUser=found;
+      mergeUserData(found);
       document.getElementById("loginModal").classList.remove("open");
-      toast("Bienvenido, "+currentUser.nombre+"!");
+      toast("Bienvenido, "+(currentUser.nombre||'')+"!");
       afterAuthNavigate();
     } else {
       document.getElementById("loginError").style.display="block";
     }
-  }
+  });
 });
 document.getElementById("loginUser").addEventListener("keydown",function(e){if(e.key==="Enter")document.getElementById("loginPass").focus();});
 document.getElementById("loginPass").addEventListener("keydown",function(e){if(e.key==="Enter")document.getElementById("loginSubmit").click();});
