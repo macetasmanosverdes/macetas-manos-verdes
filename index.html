@@ -122,6 +122,8 @@ html,body{height:100%;background:var(--bg);font-family:'Jost',sans-serif;color:v
 .modal-overlay.open{display:flex;}
 .modal{background:var(--card-bg);border-radius:20px;width:100%;max-width:480px;padding:24px 20px 32px;max-height:80vh;overflow-y:auto;}
 .modal-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;margin-bottom:20px;}
+.modal-x{position:absolute;top:14px;right:14px;width:32px;height:32px;border:none;background:none;font-size:24px;line-height:1;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:50%;}
+.modal-x:hover{background:rgba(0,0,0,0.06);}
 .payment-options{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
 .pay-opt{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--border);border-radius:12px;cursor:pointer;background:#fff;transition:all 0.2s;}
 .pay-opt:hover{border-color:var(--accent);background:#faf6f0;}
@@ -548,8 +550,8 @@ html,body{height:100%;background:var(--bg);font-family:'Jost',sans-serif;color:v
 
 <!-- LOGIN MODAL -->
 <div class="modal-overlay" id="loginModal">
-  <div class="modal">
-    <div class="modal-title">Log In</div>
+  <div class="modal" style="position:relative;">
+    <button class="modal-x" id="loginModalClose" aria-label="Cerrar">&times;</button>
     <div class="auth-title" style="font-size:22px;">Bienvenido</div>
     <div class="auth-subtitle" style="margin-bottom:16px;">Ingresá con tu cuenta para continuar</div>
     <button class="auth-btn-google" onclick="document.getElementById('loginModal').classList.remove('open');googleLogin();" style="margin-bottom:10px;">
@@ -1649,6 +1651,10 @@ document.getElementById("adminLoginBtn").addEventListener("click",function(){
   showUserOrAdmin();
 });
 document.getElementById("loginCancel").addEventListener("click",function(){document.getElementById("loginModal").classList.remove("open");});
+document.getElementById("loginModalClose").addEventListener("click",function(){document.getElementById("loginModal").classList.remove("open");});
+document.getElementById("loginModal").addEventListener("click",function(e){
+  if(e.target===this)this.classList.remove("open"); // click fuera del recuadro (en el fondo oscuro) cierra el modal
+});
 document.getElementById("loginSubmit").addEventListener("click",function(){
   var u=document.getElementById("loginUser").value.trim(),p=document.getElementById("loginPass").value;
   if(u==="admin"&&p==="macetas.verdes"){
