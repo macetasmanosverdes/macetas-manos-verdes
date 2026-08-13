@@ -122,8 +122,6 @@ html,body{height:100%;background:var(--bg);font-family:'Jost',sans-serif;color:v
 .modal-overlay.open{display:flex;}
 .modal{background:var(--card-bg);border-radius:20px;width:100%;max-width:480px;padding:24px 20px 32px;max-height:80vh;overflow-y:auto;}
 .modal-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;margin-bottom:20px;}
-.modal-x{position:absolute;top:14px;right:14px;width:32px;height:32px;border:none;background:none;font-size:24px;line-height:1;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:50%;}
-.modal-x:hover{background:rgba(0,0,0,0.06);}
 .payment-options{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
 .pay-opt{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--border);border-radius:12px;cursor:pointer;background:#fff;transition:all 0.2s;}
 .pay-opt:hover{border-color:var(--accent);background:#faf6f0;}
@@ -313,15 +311,16 @@ html,body{height:100%;background:var(--bg);font-family:'Jost',sans-serif;color:v
       <div class="screen-title">Crear cuenta</div>
     </div>
     <div class="auth-screen">
-      <div class="auth-field"><label class="auth-label">Usuario (sugerimos usar tu DNI)</label><input class="auth-input" id="reg-user" type="text" placeholder="Ej: 12345678"></div>
+      <div class="auth-field"><label class="auth-label">Usuario (sugerimos usar tu DNI)</label><input class="auth-input" id="reg-user" type="text" autocomplete="off"></div>
       <div style="display:flex;gap:12px;">
-        <div class="auth-field" style="flex:1"><label class="auth-label">Nombre</label><input class="auth-input" id="reg-nombre" type="text" placeholder="Juan"></div>
-        <div class="auth-field" style="flex:1"><label class="auth-label">Apellido</label><input class="auth-input" id="reg-apellido" type="text" placeholder="García"></div>
+        <div class="auth-field" style="flex:1"><label class="auth-label">Nombre</label><input class="auth-input" id="reg-nombre" type="text" autocomplete="off"></div>
+        <div class="auth-field" style="flex:1"><label class="auth-label">Apellido</label><input class="auth-input" id="reg-apellido" type="text" autocomplete="off"></div>
       </div>
-      <div class="auth-field"><label class="auth-label">Dirección de entrega</label><input class="auth-input" id="reg-direccion" type="text" placeholder="Av. Siempreviva 742"></div>
-      <div class="auth-field"><label class="auth-label">Teléfono</label><input class="auth-input" id="reg-telefono" type="tel" placeholder="+54 11 1234-5678"></div>
-      <div class="auth-field"><label class="auth-label">Email</label><input class="auth-input" id="reg-email" type="email" placeholder="juan@email.com"></div>
-      <div class="auth-field"><label class="auth-label">Contraseña</label><div class="pass-wrap"><input class="auth-input" id="reg-pass" type="password" placeholder="••••••••"><button class="pass-toggle" type="button" onclick="togglePass('reg-pass',this)" tabindex="-1"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+      <div class="auth-field"><label class="auth-label">Dirección de entrega</label><input class="auth-input" id="reg-direccion" type="text" autocomplete="off"></div>
+      <div class="auth-field"><label class="auth-label">Teléfono</label><input class="auth-input" id="reg-telefono" type="tel" autocomplete="off"></div>
+      <div class="auth-field"><label class="auth-label">Email</label><input class="auth-input" id="reg-email" type="email" autocomplete="off"></div>
+      <div class="auth-field"><label class="auth-label">Contraseña</label><div class="pass-wrap"><input class="auth-input" id="reg-pass" type="password" autocomplete="new-password"><button class="pass-toggle" type="button" onclick="togglePass('reg-pass',this)" tabindex="-1"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+      <div style="display:flex;gap:12px;">
       <div id="reg-error" style="display:none;font-size:12px;color:#c0392b;text-align:center;"></div>
       <button class="auth-btn" onclick="doRegister()">Registrarse</button>
       <div class="auth-link">¿Ya tenés cuenta? <span onclick="showLogin()">Iniciar sesión</span></div>
@@ -444,6 +443,22 @@ html,body{height:100%;background:var(--bg);font-family:'Jost',sans-serif;color:v
     </div>
   </div>
 
+  <!-- CÓDIGO DE RECUPERACIÓN ENVIADO -->
+  <div class="screen" id="screen-forgot-sent">
+    <div class="screen-header">
+      <button class="back-btn" onclick="go('login')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="screen-title">Cambio de contraseña</div>
+    </div>
+    <div class="auth-screen" style="justify-content:center;flex:1;">
+      <div class="confirm-box">
+        <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <div class="confirm-title">Cambio de contraseña</div>
+        <div class="confirm-text" id="forgot-sent-text">Te enviamos un código de 6 dígitos a tu email.<br>El código caduca en 30 minutos ⏳</div>
+      </div>
+      <button class="auth-btn" onclick="go('reset')">Ingresar código</button>
+    </div>
+  </div>
+
   <!-- TRANSFERENCIA -->
   <div class="screen" id="screen-transferencia">
     <div class="screen-header">
@@ -500,6 +515,15 @@ html,body{height:100%;background:var(--bg);font-family:'Jost',sans-serif;color:v
     <div class="admin-list-screen" id="adminUsuariosList"></div>
   </div>
 
+  <!-- ADMIN DETALLE DE USUARIO (historial de compras) -->
+  <div class="screen" id="screen-admin-user-detail">
+    <div class="screen-header">
+      <button class="back-btn" onclick="go('admin-usuarios')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="screen-title" id="adminUserDetailTitle">Historial de compras</div>
+    </div>
+    <div class="admin-list-screen" id="adminUserOrdersList"></div>
+  </div>
+
   <!-- ADMIN GESTIÓN CATÁLOGO -->
   <div class="screen" id="screen-admin-catalogo">
     <div class="screen-header">
@@ -550,8 +574,7 @@ html,body{height:100%;background:var(--bg);font-family:'Jost',sans-serif;color:v
 
 <!-- LOGIN MODAL -->
 <div class="modal-overlay" id="loginModal">
-  <div class="modal" style="position:relative;">
-    <button class="modal-x" id="loginModalClose" aria-label="Cerrar">&times;</button>
+  <div class="modal">
     <div class="auth-title" style="font-size:22px;">Bienvenido</div>
     <div class="auth-subtitle" style="margin-bottom:16px;">Ingresá con tu cuenta para continuar</div>
     <button class="auth-btn-google" onclick="document.getElementById('loginModal').classList.remove('open');googleLogin();" style="margin-bottom:10px;">
@@ -725,6 +748,7 @@ function go(name){
   document.querySelectorAll(".nav-tab").forEach(function(t){t.classList.toggle("active",t.dataset.screen===name);});
   document.querySelectorAll(".screen").forEach(function(s){s.classList.remove("active");});
   document.getElementById("screen-"+name).classList.add("active");
+  if(name!=="profile"&&myOrdersInterval){clearInterval(myOrdersInterval);myOrdersInterval=null;}
   if(name==="favs")rFavs();
   if(name==="cart")rCart();
   if(name==="admin-pedidos")renderAdminOrders(currentOrderFilter);
@@ -1002,11 +1026,12 @@ function openProfile(){
   renderProfile();
 }
 
+var myOrdersInterval=null;
+
 function renderProfile(){
   var u=currentUser;
   if(!u) return;
   var initials=(u.nombre?u.nombre[0]:'?')+(u.apellido?u.apellido[0]:'');
-  var myOrders=orders.filter(function(o){return o.user&&o.user.email===u.email;});
 
   var html='<div class="profile-header">'+
     '<div class="profile-avatar">'+initials.toUpperCase()+'</div>'+
@@ -1017,32 +1042,71 @@ function renderProfile(){
     '</div>'+
   '</div>'+
   '<div class="profile-section">'+
-    '<div class="profile-section-title">Mis compras</div>';
-
-  if(!myOrders.length){
-    html+='<div style="font-size:13px;color:var(--muted);text-align:center;padding:20px 0;">Todavía no realizaste compras</div>';
-  } else {
-    myOrders.forEach(function(o){
-      html+='<div class="profile-order-card">'+
-        '<div class="profile-order-date">'+o.date+' · '+o.method+'</div>'+
-        o.items.map(function(it){
-          return '<div class="profile-order-item">'+it.nombre+' '+it.size+' ('+it.color+') — '+fp(it.price)+'</div>';
-        }).join('')+
-        '<div class="profile-order-total">Total: '+fp(o.total)+'</div>'+
-        '<div class="profile-order-method">Estado: '+o.items[0].status+'</div>'+
-      '</div>';
-    });
-  }
-
-  html+='<button class="auth-btn" onclick="go(\"cart\")" style="margin-bottom:10px;">Ir al carrito</button>'+
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">'+
+      '<div class="profile-section-title" style="margin-bottom:0;">Mis compras</div>'+
+      '<button type="button" onclick="loadMyOrders(currentUser.email)" style="border:none;background:none;color:var(--accent);font-size:12px;cursor:pointer;padding:4px 0;">↻ Actualizar estado</button>'+
+    '</div>'+
+    '<div id="myOrdersList"><div style="font-size:13px;color:var(--muted);text-align:center;padding:20px 0;">Cargando compras...</div></div>'+
+  '<button class="auth-btn" onclick="go(\'cart\')" style="margin-bottom:10px;">Ir al carrito</button>'+
     '<button class="profile-logout-btn" onclick="logoutUser()">Cerrar sesión</button>'+
   '</div>';
 
   document.getElementById('profileContent').innerHTML=html;
+  loadMyOrders(u.email);
+
+  if(myOrdersInterval)clearInterval(myOrdersInterval);
+  myOrdersInterval=setInterval(function(){
+    if(currentUser)loadMyOrders(currentUser.email);
+  },120000);
+}
+
+function loadMyOrders(email){
+  loadOrdersForEmail(email,'myOrdersList','Todavía no realizaste compras');
+}
+
+function loadOrdersForEmail(email,containerId,emptyText){
+  var container=document.getElementById(containerId);
+  if(!container)return;
+  fetch(SHEETS_URL+'?action=listPedidos').then(function(r){return r.json();}).then(function(res){
+    var mine=(res.pedidos||[]).filter(function(o){return (o.email||'').toLowerCase()===email.toLowerCase();});
+    if(!mine.length){
+      container.innerHTML='<div style="font-size:13px;color:var(--muted);text-align:center;padding:20px 0;">'+emptyText+'</div>';
+      return;
+    }
+    Promise.all(mine.map(function(o){
+      return fetch(SHEETS_URL+'?action=getDetalle&numero='+encodeURIComponent(o.numero))
+        .then(function(r){return r.json();})
+        .then(function(d){o.items=d.items||[];return o;})
+        .catch(function(){o.items=[];return o;});
+    })).then(function(full){
+      container.innerHTML=full.map(function(o){
+        return '<div class="profile-order-card">'+
+          '<div class="profile-order-date">'+(o.fecha||'')+' · '+(o.hora||'')+'</div>'+
+          o.items.map(function(it){
+            return '<div class="profile-order-item">'+it.maceta+' — '+fp(Number(it.precio)||0)+'</div>';
+          }).join('')+
+          '<div class="profile-order-total">Total: '+fp(Number(o.total)||0)+'</div>'+
+          '<div class="profile-order-method">Estado: '+(o.estado||'PENDIENTE')+'</div>'+
+        '</div>';
+      }).join('');
+    });
+  }).catch(function(e){
+    console.warn('loadMyOrders error:',e);
+    container.innerHTML='<div style="font-size:13px;color:var(--muted);text-align:center;padding:20px 0;">No se pudo cargar el historial</div>';
+  });
+}
+
+function persistSession(){
+  try{
+    if(currentUser)localStorage.setItem('mmv_currentUser',JSON.stringify(currentUser));
+    else localStorage.removeItem('mmv_currentUser');
+  }catch(e){console.warn('No se pudo guardar la sesión localmente:',e);}
 }
 
 function logoutUser(){
   currentUser=null;
+  persistSession();
+  if(myOrdersInterval){clearInterval(myOrdersInterval);myOrdersInterval=null;}
   go('catalog');
   toast('Sesión cerrada');
 }
@@ -1078,14 +1142,14 @@ function renderUsuarios(){
     html+='<div class="section-title">Usuarios activos ('+activeUsers.length+')</div>';
     activeUsers.forEach(function(u){
       var initials=(u.nombre?u.nombre[0]:'?')+(u.apellido?u.apellido[0]:'');
-      html+='<div class="user-card">'+
+      html+='<div class="user-card" style="cursor:pointer;" onclick="openAdminUserDetail(\''+u.email+'\')">'+
         '<div class="user-avatar-sm">'+initials.toUpperCase()+'</div>'+
         '<div class="user-info">'+
           '<div class="user-name">'+u.nombre+' '+u.apellido+'</div>'+
           '<div class="user-meta">'+u.email+'</div>'+
           '<div class="user-meta">'+(u.tel||'')+(u.dir?' · '+u.dir:'')+'</div>'+
         '</div>'+
-        '<button class="user-del-btn" data-email="'+u.email+'" onclick="deleteUser(this.dataset.email)">Eliminar</button>'+
+        '<button class="user-del-btn" data-email="'+u.email+'" onclick="event.stopPropagation();deleteUser(this.dataset.email)">Eliminar</button>'+
       '</div>';
     });
   } else {
@@ -1110,12 +1174,20 @@ function renderUsuarios(){
   list.innerHTML=html;
 }
 
+function openAdminUserDetail(email){
+  var u=users[email]||deletedUsers.find(function(x){return x.email===email;});
+  document.getElementById('adminUserDetailTitle').textContent=u?(u.nombre+' '+u.apellido):'Historial de compras';
+  document.getElementById('adminUserOrdersList').innerHTML='<div style="font-size:13px;color:var(--muted);text-align:center;padding:20px 0;">Cargando compras...</div>';
+  go('admin-user-detail');
+  loadOrdersForEmail(email,'adminUserOrdersList','Este usuario todavía no realizó compras');
+}
+
 function deleteUser(email){
   var u=users[email];
   if(!u)return;
   deletedUsers.push(u);
   delete users[email];
-  if(currentUser&&currentUser.email===email){currentUser=null;}
+  if(currentUser&&currentUser.email===email){currentUser=null;persistSession();}
   renderUsuarios();
   toast('Usuario eliminado');
   fetch(SHEETS_URL,{
@@ -1228,9 +1300,9 @@ function renderOrderCard(o){
     detHtml+
     '<div style="padding:10px 14px;display:flex;justify-content:flex-end;">'+
       '<select class="status-select '+normEstado(o.estado)+'" onclick="event.stopPropagation()" onchange="setPedidoEstado(\''+numero+'\',this)">'+
-        '<option value="Pendiente"'+(normEstado(o.estado)==='pendiente'?' selected':'')+'>Pendiente</option>'+
-        '<option value="Entregado"'+(normEstado(o.estado)==='entregado'?' selected':'')+'>Entregado</option>'+
-        '<option value="Anulado"'+(normEstado(o.estado)==='anulado'?' selected':'')+'>Anulado</option>'+
+        '<option value="PENDIENTE"'+(normEstado(o.estado)==='pendiente'?' selected':'')+'>Pendiente</option>'+
+        '<option value="ENTREGADO"'+(normEstado(o.estado)==='entregado'?' selected':'')+'>Entregado</option>'+
+        '<option value="ANULADO"'+(normEstado(o.estado)==='anulado'?' selected':'')+'>Anulado</option>'+
       '</select>'+
     '</div>'+
   '</div>';
@@ -1651,10 +1723,6 @@ document.getElementById("adminLoginBtn").addEventListener("click",function(){
   showUserOrAdmin();
 });
 document.getElementById("loginCancel").addEventListener("click",function(){document.getElementById("loginModal").classList.remove("open");});
-document.getElementById("loginModalClose").addEventListener("click",function(){document.getElementById("loginModal").classList.remove("open");});
-document.getElementById("loginModal").addEventListener("click",function(e){
-  if(e.target===this)this.classList.remove("open"); // click fuera del recuadro (en el fondo oscuro) cierra el modal
-});
 document.getElementById("loginSubmit").addEventListener("click",function(){
   var u=document.getElementById("loginUser").value.trim(),p=document.getElementById("loginPass").value;
   if(u==="admin"&&p==="macetas.verdes"){
@@ -1673,6 +1741,7 @@ document.getElementById("loginSubmit").addEventListener("click",function(){
     }
     if(found){
       currentUser=found;
+      persistSession();
       mergeUserData(found);
       document.getElementById("loginModal").classList.remove("open");
       toast("Bienvenido, "+(currentUser.nombre||'')+"!");
@@ -1792,6 +1861,7 @@ function socialAuth(provider){
     var found=res&&res.found?res.user:(users[profile.email]||null);
     if(found){
       currentUser=found;
+      persistSession();
       mergeUserData(found);
       toast("✓ Bienvenido, "+(found.nombre||profile.nombre)+"!");
       afterAuthNavigate();
@@ -1832,6 +1902,7 @@ function doRegister(){
   var newUser={username:username,nombre:nombre,apellido:apellido,dir:dir,tel:tel,email:email,pass:pass,favs:favs.slice(),cart:cart.slice()};
   users[email]=newUser;
   currentUser=newUser;
+  persistSession();
   toast("Guardando cuenta...");
   registerUserRemote(newUser).then(function(){
     toast("✓ Cuenta creada con éxito");
@@ -1866,19 +1937,24 @@ function submitForgotPassword(isResend){
   }).then(function(r){return r.json();}).then(function(res){
     if(!res||!res.ok)throw new Error('sin ok');
     forgotEmailPending=email;
+    document.getElementById('forgot-sent-text').innerHTML='Te enviamos un código de 6 dígitos a <b>'+email+'</b>.<br>El código caduca en 30 minutos ⏳';
     document.getElementById('reset-subtitle').textContent='Te mandamos un código de 6 dígitos a '+email+', válido por 30 minutos';
     document.getElementById('reset-code').value='';
     document.getElementById('reset-pass').value='';
     document.getElementById('reset-pass2').value='';
     document.getElementById('reset-error').style.display='none';
     toast('✓ Código enviado, revisá tu email');
-    go('reset');
+    go('forgot-sent');
   }).catch(function(e){
     console.warn('requestPasswordReset error:',e);
     // Por seguridad, no confirmamos si el email existe o no: mismo mensaje siempre
     forgotEmailPending=email;
-    toast('✓ Si el email está registrado, te llegará un código');
-    go('reset');
+    document.getElementById('forgot-sent-text').innerHTML='Si <b>'+email+'</b> está registrado, te va a llegar un código.<br>El código caduca en 30 minutos ⏳';
+    document.getElementById('reset-code').value='';
+    document.getElementById('reset-pass').value='';
+    document.getElementById('reset-pass2').value='';
+    document.getElementById('reset-error').style.display='none';
+    go('forgot-sent');
   });
 }
 
@@ -1925,6 +2001,7 @@ function doLogin(){
     }
     if(!found){err.style.display='block';return;}
     currentUser=found;
+    persistSession();
     mergeUserData(found);
     toast("✓ Sesión iniciada");
     afterAuthNavigate();
@@ -2004,7 +2081,7 @@ function registerOrder(method){
     telefono:u.tel||'',
     direccion:u.dir||'',
     total:tot,
-    estado:'Pendiente',
+    estado:'PENDIENTE',
     items:orderItems.map(function(it){
       return {maceta:it.nombre+' '+it.size+' ('+it.color+')', precio:it.price};
     })
@@ -2070,6 +2147,24 @@ document.querySelectorAll(".pay-opt").forEach(function(opt){
 
 buildCatalog();
 importPreciosFromSheet(true);
+
+try{
+  var savedSession=localStorage.getItem('mmv_currentUser');
+  if(savedSession){
+    currentUser=JSON.parse(savedSession);
+    mergeUserData(currentUser);
+    checkUserRemote(currentUser.email).then(function(res){
+      if(res&&res.found){
+        currentUser=Object.assign({},currentUser,res.user);
+        persistSession();
+      } else if(res&&res.found===false){
+        // La cuenta ya no existe en la planilla (por ej. se borró): cierra sesión localmente
+        currentUser=null;
+        persistSession();
+      }
+    }).catch(function(e){console.warn('No se pudo verificar la sesión guardada:',e);});
+  }
+}catch(e){console.warn('No se pudo restaurar la sesión:',e);}
 
 var scrollTopBtn = document.getElementById('scrollTopBtn');
 var catalogScreen = document.getElementById('screen-catalog');
