@@ -1717,7 +1717,17 @@ document.getElementById("cartHeaderBtn").addEventListener("click",function(){go(
 
 var aLI=false;
 document.getElementById("adminLoginBtn").addEventListener("click",function(){
-  if(aLI){go("admin");return;}
+  if(aLI){
+    try{
+      go("admin");
+    }catch(navErr){
+      if(confirm("Hubo un error al abrir el panel admin:\n\n"+navErr.message+"\n\n¿Cerrar la sesión de administrador?")){
+        aLI=false;
+        go("catalog");
+      }
+    }
+    return;
+  }
   if(currentUser){openProfile();return;}
   // Show choice: user login or admin login
   showUserOrAdmin();
@@ -1726,9 +1736,14 @@ document.getElementById("loginCancel").addEventListener("click",function(){docum
 document.getElementById("loginSubmit").addEventListener("click",function(){
   var u=document.getElementById("loginUser").value.trim(),p=document.getElementById("loginPass").value;
   if(u==="admin"&&p==="macetas.verdes"){
-    aLI=true;
-    document.getElementById("loginModal").classList.remove("open");
-    go("admin");toast("Bienvenido, administrador");
+    try{
+      aLI=true;
+      document.getElementById("loginModal").classList.remove("open");
+      go("admin");
+      toast("Bienvenido, administrador");
+    }catch(adminErr){
+      alert("ERROR AL ENTRAR COMO ADMIN:\n\n"+adminErr.message+"\n\n"+(adminErr.stack||""));
+    }
     return;
   }
   toast("Verificando cuenta...");
